@@ -19,8 +19,21 @@
  */
 
 /**
+ * Adds theme support for background images if not already present.
+ *
+ * @link http://codex.wordpress.org/Custom_Backgrounds
+ */
+
+function basic_backstretch_setup() {
+	if ( ! get_theme_support( 'custom-background' ) )
+		add_theme_support( 'custom-background' );
+}
+
+add_action( 'after_setup_theme', 'basic_backstretch_setup', 100 );
+
+/**
  * Checks if a background image is present and if full screen background option is set.
- * If so, the required scripts are loaded
+ * If so, required scripts are loaded.
  */
 function basic_backstretch() {
 
