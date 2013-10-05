@@ -40,7 +40,7 @@ function basic_backstretch() {
 	if ( get_background_image() && get_option( 'basic-backstretch' ) ) {
 
 		// Registers the backstretch script
-		wp_register_script( 'basic-backstretch-js', get_template_directory_uri() . '/js/jquery.backstretch.js', array('jquery'), '20130930', true );
+		wp_register_script( 'basic-backstretch-js', plugin_dir_url( __FILE__ ) . '/jquery.backstretch.js', array('jquery'), '20130930', true );
 
 		// Enqueues the script
 		wp_enqueue_script( 'basic-backstretch-js' );
@@ -52,15 +52,27 @@ function basic_backstretch() {
 		) );
 
 		// Remove the background image from being included in inline styles
-		// Clever?  Maybe too clever?
-		add_filter( 'theme_mod_background_image', 'visual_background_image_mod' );
+		// Uses http://codex.wordpress.org/Plugin_API/Filter_Reference/theme_mod_$name
+		add_filter( 'theme_mod_background_image', 'backstretch_background_image_mod' );
 
 		// Add script to load backstretch in the footer
 		add_action( 'wp_footer', 'basic_backstretch_inline_script', 100 );
+
 	}
 }
 
 add_action( 'wp_enqueue_scripts', 'basic_backstretch' );
+
+/**
+ * Keeps inline styles for the background image from outputting in the header
+ *
+ * Works similar to the pre_option filter
+ * http://codex.wordpress.org/Plugin_API/Filter_Reference/pre_option_(option_name)
+ */
+
+function backstretch_background_image_mod() {
+	return false;
+}
 
 /**
  * Inline script will load the full screen background image after all other images
