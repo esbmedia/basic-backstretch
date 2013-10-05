@@ -48,7 +48,7 @@ function basic_backstretch() {
 		// Adds a javascript object with the background image URL
 		// This is used to load the image after other images on page have finished
 		wp_localize_script( 'basic-backstretch-js', 'basicbackstretch', array(
-			'background' => get_background_image()
+			'background' => esc_url( get_background_image() )
 		) );
 
 		// Remove the background image from being included in inline styles
